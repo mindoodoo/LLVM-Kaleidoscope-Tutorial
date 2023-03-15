@@ -4,7 +4,7 @@ After a frustrating attempt to generate [LLVM IR code](https://llvm.org/docs/Lan
 
 ## Tutorial Parts
 
-- [ ] Kaleidoscope introduction and the lexer
+- [x] Kaleidoscope introduction and the lexer
 - [ ] Implementing a parser and ast
 - [ ] Code generation to LLVM IR
 - [ ] Adding JIT and optimizer support

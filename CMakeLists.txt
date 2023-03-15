@@ -13,6 +13,7 @@ add_definitions(${LLVM_DEFINITIONS_LIST})
 set(SOURCES
     src/main.cpp
     src/Lexer.cpp
+    src/Ast.cpp
 )
 
 add_executable(kal ${SOURCES})

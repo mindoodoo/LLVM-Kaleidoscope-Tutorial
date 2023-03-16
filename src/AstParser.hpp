@@ -14,21 +14,21 @@
 class AstParser {
 public:
     // Utilities
-    static int CurrentToken;
-    static int getNextToken();
+    int _currentToken;
+    int getNextToken();
 
     // Error handling
-    static std::unique_ptr<ExprAst> logError(const char *str);
-    static std::unique_ptr<PrototypeAst> logErrorP(const char *str);
+    std::unique_ptr<ExprAst> logError(const char *str);
+    std::unique_ptr<PrototypeAst> logErrorP(const char *str);
 
     // Expression parsing
-    static std::unique_ptr<ExprAst> parseExpression();
+    std::unique_ptr<ExprAst> parseExpression();
 
-    static std::unique_ptr<NumberExprAst> parseNumberExprAst();
+    std::unique_ptr<NumberExprAst> parseNumberExprAst();
 
     // parenexpr ::= '(' expression ')'
-    static std::unique_ptr<ExprAst> parseParenExpr();
+    std::unique_ptr<ExprAst> parseParenExpr();
 
 private:
-
+    Lexer _lexer;
 };

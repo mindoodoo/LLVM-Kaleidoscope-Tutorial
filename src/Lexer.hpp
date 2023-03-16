@@ -19,8 +19,8 @@ public:
         ERROR
     };
 
-    static std::string IdentifierStr;   // Filled if TOK_ID
-    static double NumVal;               // Filled if TOK_NUM
+    std::string _identifierStr;   // Filled if TOK_ID
+    double _numVal;               // Filled if TOK_NUM
 
-    static TokenTypes get_token();
+    TokenTypes get_token();
 };

@@ -8,10 +8,8 @@
 
 // ─── Utilities ───────────────────────────────────────────────────────────────────────────────────
 
-int AstParser::CurrentToken = 0;
-
 int AstParser::getNextToken() {
-    return AstParser::CurrentToken = Lexer::get_token();
+    return this->_currentToken = this->_lexer.get_token();
 }
 
 std::unique_ptr<ExprAst> AstParser::logError(const char *str) {
@@ -31,24 +29,24 @@ std::unique_ptr<ExprAst> parseExpression() {
 }
 
 std::unique_ptr<NumberExprAst> AstParser::parseNumberExprAst() {
-    auto output = std::make_unique<NumberExprAst>(Lexer::NumVal);
+    auto output = std::make_unique<NumberExprAst>(this->_lexer._numVal);
     // Consume token
     AstParser::getNextToken();
     return std::move(output);
 }
 
 // This function expects current token to be '('
-std::unique_ptr<ExprAst> parseParenExpr() {
+std::unique_ptr<ExprAst> AstParser::parseParenExpr() {
     // Consume opening parenthesis
-    AstParser::getNextToken();
+    this->getNextToken();
 
-    auto output = AstParser::parseExpression();
+    auto output = this->parseExpression();
     if (!output)
         return nullptr;
 
-    if (AstParser::CurrentToken != ')')
+    if (this->_currentToken != ')')
         return AstParser::logError("Expected ')'");
     // Consume closing
-    AstParser::getNextToken();
+    this->getNextToken();
     return output;
 }

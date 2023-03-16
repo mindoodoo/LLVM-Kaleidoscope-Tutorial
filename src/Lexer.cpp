@@ -6,9 +6,6 @@
 
 #include "Lexer.hpp"
 
-std::string Lexer::IdentifierStr = "";
-double Lexer::NumVal = 0;
-
 Lexer::TokenTypes Lexer::get_token() {
     static int last_char = ' ';
 
@@ -16,14 +13,14 @@ Lexer::TokenTypes Lexer::get_token() {
         last_char = getchar();
 
     if (isalpha(last_char)) {
-        Lexer::IdentifierStr = last_char;
+        this->_identifierStr = last_char;
 
         while (isalnum((last_char = getchar())))
-            Lexer::IdentifierStr += last_char;
+            this->_identifierStr += last_char;
 
-        if (Lexer::IdentifierStr == "def")
+        if (this->_identifierStr == "def")
             return TOK_DEF;
-        if (Lexer::IdentifierStr == "extern")
+        if (this->_identifierStr == "extern")
             return TOK_EXT;
         return TOK_ID;
     } else if (isdigit(last_char)) {
@@ -34,7 +31,7 @@ Lexer::TokenTypes Lexer::get_token() {
             last_char = getchar();
         } while (isdigit(last_char) || last_char == '.');
 
-        Lexer::NumVal = strtod(num_str.c_str(), 0);
+        this->_numVal = strtod(num_str.c_str(), 0);
         return TOK_NUM;
     } else if (last_char == '#') {
         // Handles comments

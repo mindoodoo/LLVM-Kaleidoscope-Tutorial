@@ -15,6 +15,7 @@ set(SOURCES
     src/Lexer.cpp
     src/Ast.cpp
     src/AstParser.cpp
+    src/Driver.cpp
 )
 
 add_executable(kal ${SOURCES})

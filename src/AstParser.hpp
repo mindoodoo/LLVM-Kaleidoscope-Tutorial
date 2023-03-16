@@ -52,7 +52,7 @@ public:
 
     std::unique_ptr<PrototypeAst> parsePrototype();
     std::unique_ptr<FunctionAst> parseDefinition();
-    std::unique_ptr<PrototypeAst> AstParser::parseExtern();
+    std::unique_ptr<PrototypeAst> parseExtern();
 
 
 private:

@@ -14,6 +14,7 @@ set(SOURCES
     src/main.cpp
     src/Lexer.cpp
     src/Ast.cpp
+    src/AstParser.cpp
 )
 
 add_executable(kal ${SOURCES})

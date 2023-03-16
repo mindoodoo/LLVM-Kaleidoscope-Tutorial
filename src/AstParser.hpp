@@ -29,6 +29,14 @@ public:
     // parenexpr ::= '(' expression ')'
     std::unique_ptr<ExprAst> parseParenExpr();
 
+    std::unique_ptr<ExprAst> parseIdentifierExpr();
+
+    // primary
+    //   ::= identifierexpr
+    //   ::= numberexpr
+    //   ::= parenexpr
+    std::unique_ptr<ExprAst> ParsePrimary();
+
 private:
     Lexer _lexer;
 };

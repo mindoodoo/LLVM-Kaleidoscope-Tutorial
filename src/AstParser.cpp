@@ -50,3 +50,51 @@ std::unique_ptr<ExprAst> AstParser::parseParenExpr() {
     this->getNextToken();
     return output;
 }
+
+std::unique_ptr<ExprAst> AstParser::parseIdentifierExpr() {
+    std::string idName = this->_lexer._identifierStr;
+
+    // consume identifier
+    this->getNextToken();
+
+    // Simple var ref
+    if (this->_currentToken != '(')
+        return std::make_unique<VariableExprAst>(idName);
+
+    // Fuction call
+    getNextToken();  // consume (
+    std::vector<std::unique_ptr<ExprAst>> args;
+    if (this->_currentToken != ')') {
+        while (true) {
+        if (auto arg = this->parseExpression())
+            args.push_back(std::move(arg));
+        else
+            return nullptr;
+
+        if (this->_currentToken == ')')
+            break;
+
+        if (this->_currentToken != ',')
+            return this->logError("Expected ')' or ',' in argument list");
+        this->getNextToken();
+        }
+    }
+
+    // Eat the ')'.
+    getNextToken();
+
+    return std::make_unique<CallExprAst>(idName, std::move(args));
+}
+
+std::unique_ptr<ExprAst> AstParser::ParsePrimary() {
+    switch (this->_currentToken) {
+    default:
+        return this->logError("unknown token when expecting an expression");
+    case Lexer::TOK_ID:
+        return this->parseIdentifierExpr();
+    case Lexer::TOK_NUM:
+        return this->parseNumberExprAst();
+    case '(':
+        return this->parseParenExpr();
+    }
+}

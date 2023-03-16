@@ -8,11 +8,14 @@
 
 #include <memory>
 #include <stdio.h>
+#include <map>
 #include "Ast.hpp"
 #include "Lexer.hpp"
 
 class AstParser {
 public:
+    AstParser();
+
     // Utilities
     int _currentToken;
     int getNextToken();
@@ -20,9 +23,6 @@ public:
     // Error handling
     std::unique_ptr<ExprAst> logError(const char *str);
     std::unique_ptr<PrototypeAst> logErrorP(const char *str);
-
-    // Expression parsing
-    std::unique_ptr<ExprAst> parseExpression();
 
     std::unique_ptr<NumberExprAst> parseNumberExprAst();
 
@@ -35,7 +35,25 @@ public:
     //   ::= identifierexpr
     //   ::= numberexpr
     //   ::= parenexpr
-    std::unique_ptr<ExprAst> ParsePrimary();
+    std::unique_ptr<ExprAst> parsePrimary();
+
+    // ─── Binary Operators ────────────────────────────────────────────────────────────────────
+
+    std::map<char, int> _binopPrecedence;
+
+    // Get precedence of pending binary operator
+    int getTokenPrecedence();
+    // Expression parsing
+    std::unique_ptr<ExprAst> parseExpression();
+    std::unique_ptr<ExprAst> parseBinOpRHS(int exprPrec, std::unique_ptr<ExprAst> lhs);
+    std::unique_ptr<FunctionAst> parseTopLevelExpr();
+
+    // ─── Functions ───────────────────────────────────────────────────────────────────────────
+
+    std::unique_ptr<PrototypeAst> parsePrototype();
+    std::unique_ptr<FunctionAst> parseDefinition();
+    std::unique_ptr<PrototypeAst> AstParser::parseExtern();
+
 
 private:
     Lexer _lexer;
